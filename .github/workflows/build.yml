@@ -61,6 +61,10 @@ jobs:
         make defconfig
         make download -j8
         make -j$(nproc)
+        tags=$(git log -n 1 --date=format:"%Y%m%d" --format="%cd")-$(git log --pretty=format:"%h" -1)
+        kernel=$(curl -skL "https://github.com/coolsnowwolf/lede/raw/master/include/kernel-6.6" | awk -F"LINUX_KERNEL_HASH-| =" '/LINUX_KERNEL_HASH/{print $2}')
+        echo "latest_release=$tags-k$kernel" >>$GITHUB_ENV
+
 
     - name: Extensive logs after a failed compilation
       working-directory: /builder
@@ -78,7 +82,7 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ github.event.inputs.device }}-openwrt-${{ env.latest_release }}
+        name: m28k-openwrt-${{ env.latest_release }}
         path: ${{ env.WORKDIR }}/rom/*
 
     - name: Create release
