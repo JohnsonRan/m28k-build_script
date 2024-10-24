@@ -58,7 +58,6 @@ jobs:
         git clone --depth=1 https://github.com/coolsnowwolf/lede openwrt && cd openwrt
         bash <(curl -sSL https://github.com/JohnsonRan/m28k-build_script/raw/main/diy.sh)
         curl -skLo .config https://github.com/JohnsonRan/m28k-build_script/raw/main/config/m28k.config
-        curl -skL https://github.com/JohnsonRan/m28k-build_script/raw/main/config/23-config-common >> .config
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         make defconfig
